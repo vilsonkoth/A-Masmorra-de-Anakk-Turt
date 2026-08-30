@@ -1,0 +1,658 @@
+@import "tailwindcss";
+
+@layer base {
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* 3D Board Game Wood Table & Warm Tavern Glow Theme */
+.bg-wood-table {
+  background-color: #1e130b;
+  background-image: 
+    /* Warm Tavern Lantern Center Glow */
+    radial-gradient(ellipse 85% 55% at 50% 16%, rgba(255, 185, 75, 0.28) 0%, rgba(210, 115, 30, 0.16) 35%, rgba(35, 20, 12, 0.9) 70%, rgba(12, 7, 4, 0.98) 100%),
+    /* Horizontal fine wood grain lines */
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0px, rgba(0, 0, 0, 0.12) 2px, transparent 2px, transparent 28px),
+    /* Vertical dark oak wood planks with subtle gaps */
+    repeating-linear-gradient(90deg, rgba(20, 10, 5, 0.6) 0px, rgba(20, 10, 5, 0.6) 3px, transparent 3px, transparent 180px),
+    /* Rich oak wood gradient base */
+    linear-gradient(90deg, #23160e 0%, #362215 15%, #2a1b10 30%, #3a2517 50%, #291a10 70%, #382416 85%, #22150d 100%);
+  background-attachment: fixed;
+}
+
+.table-surface {
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.92), inset 0 0 50px rgba(0, 0, 0, 0.95);
+}
+
+/* 3D Table Perspective Container */
+.table-perspective-container {
+  perspective: 2000px;
+  perspective-origin: 50% 15%;
+  transform-style: preserve-3d;
+}
+
+.table-tilt-dungeon {
+  transform: rotateX(1deg) translateZ(0);
+  transform-origin: center bottom;
+  transition: transform 0.3s ease;
+}
+
+.table-tilt-opponents {
+  transform: scale(0.995) translateZ(-2px);
+  transform-origin: center top;
+}
+
+.table-tilt-player {
+  transform: rotateX(0.4deg) translateZ(2px);
+  transform-origin: center bottom;
+}
+
+/* 3D Card & Board Game Depth */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.25s ease;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.8), 0 6px 12px -2px rgba(0, 0, 0, 0.6);
+}
+
+.card-3d:hover {
+  transform: translateY(-5px) scale(1.025);
+  box-shadow: 0 20px 36px -4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Playmats: Tooled Dark Leather & Parchment with Brass Accents */
+.playmat-surface {
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255, 240, 200, 0.03) 0%, transparent 100%),
+    radial-gradient(ellipse at 50% 30%, #2a2017 0%, #1c140d 60%, #110d08 100%);
+  border: 2px solid #5a422d;
+  box-shadow: 
+    0 16px 36px rgba(0, 0, 0, 0.85),
+    inset 0 1px 1px rgba(255, 230, 150, 0.25),
+    inset 0 0 25px rgba(0, 0, 0, 0.65);
+}
+
+/* Dungeon Chamber: Dark Obsidian & Bloodstone Runic Floor */
+.dungeon-chamber-surface {
+  background: 
+    radial-gradient(circle at 50% 25%, rgba(220, 38, 38, 0.15) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%),
+    radial-gradient(circle at 50% 40%, #301418 0%, #1b0c0e 65%, #0e0506 100%);
+  border: 2px solid #6e242c;
+  box-shadow: 
+    0 20px 42px rgba(0, 0, 0, 0.9),
+    inset 0 0 50px rgba(139, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 215, 0, 0.35);
+}
+
+/* Fantasy Gold & Copper Inset Badges */
+.badge-gold {
+  background: linear-gradient(180deg, #3d3016 0%, #21190a 100%);
+  border: 1px solid #d4af37;
+  color: #f7e6a7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.badge-copper {
+  background: linear-gradient(180deg, #3d1c16 0%, #210e0a 100%);
+  border: 1px solid #b87333;
+  color: #ffd2ba;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-fantasy-gold {
+  background: linear-gradient(180deg, #e5c158 0%, #c49a2c 50%, #9a7218 100%);
+  border: 1px solid #ffe89e;
+  color: #1a1202;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.15s ease;
+}
+
+.btn-fantasy-gold:hover {
+  background: linear-gradient(180deg, #f7d472 0%, #d8ad3b 50%, #aa801e 100%);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.btn-fantasy-gold:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.btn-fantasy-crimson {
+  background: linear-gradient(180deg, #a81c26 0%, #850f17 50%, #5e060d 100%);
+  border: 1px solid #e0535f;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.15s ease;
+}
+
+.btn-fantasy-crimson:hover {
+  background: linear-gradient(180deg, #c42733 0%, #9e141e 50%, #720a12 100%);
+  box-shadow: 0 6px 18px rgba(180, 20, 30, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-fantasy-crimson:active {
+  transform: translateY(1px);
+}
+
+/* 3D Dice Tray Box with Velvet Tabletop Felt */
+.dice-tray {
+  background: 
+    radial-gradient(ellipse at center, rgba(35, 75, 45, 0.4) 0%, rgba(15, 30, 20, 0.95) 100%),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0.1) 2px, transparent 2px, transparent 12px),
+    #0f1712;
+  border: 3px solid #6b4c2a;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.95), 0 8px 24px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 235, 160, 0.3);
+}
+
+/* 3D Dice Cube Architecture */
+.dice-3d-scene {
+  perspective: 700px;
+  perspective-origin: 50% 50%;
+}
+
+.dice-3d-cube {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+
+.dice-3d-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Face 3D Positioning (TranslateZ = 34px for ~68px Cube) */
+.dice-face-front  { transform: rotateY(0deg) translateZ(34px); }
+.dice-face-back   { transform: rotateY(180deg) translateZ(34px); }
+.dice-face-right  { transform: rotateY(90deg) translateZ(34px); }
+.dice-face-left   { transform: rotateY(-90deg) translateZ(34px); }
+.dice-face-top    { transform: rotateX(90deg) translateZ(34px); }
+.dice-face-bottom { transform: rotateX(-90deg) translateZ(34px); }
+
+/* Responsive Adjustments for 3D Faces */
+@media (min-width: 640px) {
+  .dice-face-front  { transform: rotateY(0deg) translateZ(36px); }
+  .dice-face-back   { transform: rotateY(180deg) translateZ(36px); }
+  .dice-face-right  { transform: rotateY(90deg) translateZ(36px); }
+  .dice-face-left   { transform: rotateY(-90deg) translateZ(36px); }
+  .dice-face-top    { transform: rotateX(90deg) translateZ(36px); }
+  .dice-face-bottom { transform: rotateX(-90deg) translateZ(36px); }
+}
+
+/* Official Brown D6 Face Styles: A Masmorra de Anakk Tur */
+.dice-face-brown {
+  background: 
+    radial-gradient(circle at 35% 25%, #6a3e20 0%, #452410 50%, #281206 100%);
+  border: 2px solid #d4af37;
+  box-shadow: 
+    inset 0 0 12px rgba(0, 0, 0, 0.9),
+    inset 0 1px 2px rgba(255, 235, 150, 0.7),
+    0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.dice-face-brown-null {
+  background: 
+    radial-gradient(circle at 35% 25%, #421e16 0%, #2a110d 50%, #150604 100%);
+  border: 2px solid #8b0000;
+  box-shadow: 
+    inset 0 0 12px rgba(0, 0, 0, 0.95),
+    inset 0 1px 2px rgba(239, 68, 68, 0.5),
+    0 0 10px rgba(185, 28, 28, 0.3);
+}
+
+/* Crimson & Burnished Gold Hit Face */
+.dice-face-hit {
+  background: 
+    radial-gradient(circle at 40% 30%, #a82029 0%, #6e0d14 70%, #380408 100%);
+  border: 2px solid #f5d77f;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.8),
+    inset 0 1px 2px rgba(255, 235, 150, 0.8),
+    0 0 14px rgba(220, 38, 38, 0.5);
+}
+
+/* Dark Iron & Slate Blank (Nulo) Face */
+.dice-face-blank {
+  background: 
+    radial-gradient(circle at 40% 30%, #374151 0%, #1f2937 60%, #111827 100%);
+  border: 2px solid #64748b;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 0, 0, 0.85),
+    inset 0 1px 2px rgba(200, 210, 225, 0.4);
+}
+
+/* 3D Tumbling & Bouncing Animations */
+@keyframes dice-tumble-1 {
+  0%   { transform: translateY(-40px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.9); }
+  25%  { transform: translateY(12px) rotateX(280deg) rotateY(190deg) rotateZ(45deg) scale(1.1); }
+  50%  { transform: translateY(-20px) rotateX(540deg) rotateY(420deg) rotateZ(120deg) scale(0.95); }
+  75%  { transform: translateY(8px) rotateX(720deg) rotateY(640deg) rotateZ(180deg) scale(1.05); }
+  100% { transform: translateY(0px) rotateX(900deg) rotateY(810deg) rotateZ(240deg) scale(1); }
+}
+
+@keyframes dice-tumble-2 {
+  0%   { transform: translateY(-45px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.85); }
+  25%  { transform: translateY(14px) rotateX(-240deg) rotateY(310deg) rotateZ(-60deg) scale(1.12); }
+  50%  { transform: translateY(-18px) rotateX(-480deg) rotateY(560deg) rotateZ(-120deg) scale(0.96); }
+  75%  { transform: translateY(6px) rotateX(-690deg) rotateY(780deg) rotateZ(-180deg) scale(1.04); }
+  100% { transform: translateY(0px) rotateX(-880deg) rotateY(980deg) rotateZ(-220deg) scale(1); }
+}
+
+@keyframes dice-tumble-3 {
+  0%   { transform: translateY(-35px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.92); }
+  25%  { transform: translateY(10px) rotateX(320deg) rotateY(-260deg) rotateZ(75deg) scale(1.1); }
+  50%  { transform: translateY(-24px) rotateX(600deg) rotateY(-480deg) rotateZ(140deg) scale(0.94); }
+  75%  { transform: translateY(8px) rotateX(810deg) rotateY(-680deg) rotateZ(200deg) scale(1.06); }
+  100% { transform: translateY(0px) rotateX(1020deg) rotateY(-860deg) rotateZ(260deg) scale(1); }
+}
+
+.animate-dice-tumble-1 {
+  animation: dice-tumble-1 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+.animate-dice-tumble-2 {
+  animation: dice-tumble-2 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+.animate-dice-tumble-3 {
+  animation: dice-tumble-3 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+/* Floating Combat Text / Damage Numbers Animation */
+@keyframes float-damage-up {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.7);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.25);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-16px) scale(1.1);
+  }
+  80% {
+    opacity: 0.9;
+    transform: translateY(-30px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-46px) scale(0.85);
+  }
+}
+
+.animate-floating-damage {
+  animation: float-damage-up 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+/* Custom scrollbar for action log and card hands */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #110d0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #3d2e22;
+  border-radius: 9999px;
+  border: 1px solid #1a140f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+@keyframes dice-roll {
+  0% { transform: rotate(0deg) scale(0.85); }
+  25% { transform: rotate(18deg) scale(1.15); }
+  50% { transform: rotate(-18deg) scale(0.95); }
+  75% { transform: rotate(10deg) scale(1.05); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.animate-dice-roll {
+  animation: dice-roll 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.35); }
+  50% { box-shadow: 0 0 26px rgba(212, 175, 55, 0.7); }
+}
+
+@keyframes pulse-crimson {
+  0%, 100% { box-shadow: 0 0 12px rgba(180, 20, 30, 0.5); }
+  50% { box-shadow: 0 0 28px rgba(220, 30, 40, 0.85); }
+}
+
+.pulse-active-target {
+  animation: pulse-glow 1.5s infinite;
+}
+
+.pulse-active-danger {
+  animation: pulse-crimson 1.5s infinite;
+}
+
+/* Grimoire Tome / Dungeon Book 3D Styles */
+.grimoire-tome {
+  position: relative;
+  background: linear-gradient(135deg, #1b0d0e 0%, #2a1215 50%, #15090a 100%);
+  border: 3px solid #8b2635;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(139, 38, 53, 0.3),
+    inset 0 0 40px rgba(0, 0, 0, 0.85);
+}
+
+.grimoire-spine {
+  background: linear-gradient(to right, #120608 0%, #3d151c 50%, #120608 100%);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+/* 3D Page Flip / Card Reveal Animation */
+@keyframes dungeon-page-flip {
+  0% {
+    transform: perspective(1200px) rotateY(-80deg) scale(0.9);
+    opacity: 0;
+    filter: brightness(1.8) blur(2px);
+  }
+  50% {
+    transform: perspective(1200px) rotateY(-15deg) scale(1.03);
+    opacity: 0.9;
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: brightness(1) blur(0px);
+  }
+}
+
+.animate-dungeon-page-flip {
+  animation: dungeon-page-flip 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Rustic Wood & Stone Dungeon Frame */
+.rustic-dungeon-frame {
+  background: 
+    radial-gradient(ellipse at 50% 30%, rgba(220, 38, 38, 0.18) 0%, transparent 65%),
+    radial-gradient(circle at 50% 0%, rgba(255, 200, 100, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #241417 0%, #150a0c 50%, #0c0507 100%);
+  border: 3px solid #6b3524;
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.95),
+    0 0 25px rgba(212, 175, 55, 0.15),
+    inset 0 0 35px rgba(0, 0, 0, 0.85),
+    inset 0 1px 2px rgba(255, 215, 120, 0.35);
+}
+
+/* Overlapping Hand Fan Styles */
+.hand-fan-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-top: 10px;
+  padding-bottom: 2px;
+  perspective: 1000px;
+}
+
+.hand-fan-card {
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: center bottom;
+  box-shadow: -4px -2px 14px rgba(0, 0, 0, 0.7);
+}
+
+.hand-fan-card:hover {
+  transform: translateY(-28px) scale(1.08) !important;
+  z-index: 40 !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), 0 12px 28px rgba(0, 0, 0, 0.9);
+}
+
+/* Targeting Dash Beam Animation */
+@keyframes targeting-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.animate-targeting-dash {
+  animation: targeting-dash 0.6s linear infinite;
+}
+
+/* Custom background texture utility */
+.custom-bg-cover {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Smooth fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.18s ease-out forwards;
+}
+
+/* =========================================================
+   STRICT COMPLETE CARD DISPLAY (NO CROPPING / ASPECT RATIO)
+   ========================================================= */
+.card-aspect-ratio {
+  aspect-ratio: 2.5 / 3.5;
+}
+
+.card-image-intact {
+  object-fit: contain !important;
+  max-height: 100%;
+  max-width: 100%;
+  aspect-ratio: 2.5 / 3.5;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+}
+
+/* =========================================================
+   LIVING DUNGEON SCENERY ANIMATIONS (TORCHES & GOLD SHIMMER)
+   ========================================================= */
+
+/* Ambient Torch Fire Glow & Halo */
+@keyframes torch-halo-glow {
+  0%, 100% {
+    opacity: 0.85;
+    transform: translate(-50%, 0) scale(1);
+    filter: blur(14px) brightness(1.1);
+  }
+  35% {
+    opacity: 0.65;
+    transform: translate(-50%, -2px) scale(0.92);
+    filter: blur(12px) brightness(0.95);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 1px) scale(1.1);
+    filter: blur(16px) brightness(1.3);
+  }
+}
+
+.animate-torch-halo {
+  animation: torch-halo-glow 2.4s ease-in-out infinite alternate;
+}
+
+/* Animated SVG Flame Components */
+@keyframes flame-outer-flicker {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1) skewX(0deg);
+  }
+  25% {
+    transform: scaleX(0.88) scaleY(1.08) skewX(-2.5deg);
+  }
+  50% {
+    transform: scaleX(1.08) scaleY(0.94) skewX(2deg);
+  }
+  75% {
+    transform: scaleX(0.94) scaleY(1.04) skewX(-1.5deg);
+  }
+}
+
+@keyframes flame-middle-flicker {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1) skewX(0deg);
+  }
+  30% {
+    transform: scaleX(1.06) scaleY(0.92) skewX(2deg);
+  }
+  65% {
+    transform: scaleX(0.92) scaleY(1.06) skewX(-3deg);
+  }
+}
+
+@keyframes flame-inner-flicker {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(0.85, 1.15);
+    opacity: 1;
+  }
+}
+
+.animate-flame-outer {
+  animation: flame-outer-flicker 0.45s ease-in-out infinite alternate;
+}
+
+.animate-flame-middle {
+  animation: flame-middle-flicker 0.38s ease-in-out infinite alternate;
+}
+
+.animate-flame-inner {
+  animation: flame-inner-flicker 0.28s ease-in-out infinite alternate;
+}
+
+/* Rising Ember Sparks */
+@keyframes ember-rise-1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-4px, -18px) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ember-rise-2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(5px, -22px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@keyframes ember-rise-3 {
+  0% {
+    transform: translate(0, 0) scale(0.9);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-2px, -14px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.animate-ember-1 {
+  animation: ember-rise-1 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.animate-ember-2 {
+  animation: ember-rise-2 1.6s cubic-bezier(0.1, 0.8, 0.3, 1) 0.5s infinite;
+}
+
+.animate-ember-3 {
+  animation: ember-rise-3 1.4s cubic-bezier(0.1, 0.8, 0.3, 1) 0.2s infinite;
+}
+
+/* Dungeon Background Living Spotlights & Gold Sparkle */
+@keyframes dungeon-torch-flicker-spot {
+  0%, 100% {
+    opacity: 0.45;
+    filter: brightness(1) drop-shadow(0 0 35px rgba(251, 146, 60, 0.6));
+  }
+  25% {
+    opacity: 0.35;
+    filter: brightness(0.9) drop-shadow(0 0 25px rgba(234, 88, 12, 0.5));
+  }
+  50% {
+    opacity: 0.55;
+    filter: brightness(1.2) drop-shadow(0 0 45px rgba(253, 186, 116, 0.7));
+  }
+  75% {
+    opacity: 0.4;
+    filter: brightness(0.95) drop-shadow(0 0 30px rgba(249, 115, 22, 0.55));
+  }
+}
+
+.animate-dungeon-torch-spot {
+  animation: dungeon-torch-flicker-spot 2s ease-in-out infinite;
+}
+
+@keyframes gold-treasure-sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 8px rgba(253, 224, 71, 0.9));
+  }
+}
+
+.animate-gold-sparkle {
+  animation: gold-treasure-sparkle 2.6s ease-in-out infinite;
+}
+
+/* Radiant Luminous Pulse for Raider Deck in Steps 1 and 3 */
+@keyframes deck-luminous-glow {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(234, 179, 8, 0.45), inset 0 0 10px rgba(250, 204, 21, 0.2);
+    border-color: rgba(234, 179, 8, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(250, 204, 21, 0.95), 0 0 18px rgba(255, 255, 255, 0.5), inset 0 0 18px rgba(250, 204, 21, 0.6);
+    border-color: rgba(255, 240, 150, 1);
+    transform: scale(1.035);
+  }
+}
+
+.animate-deck-glow {
+  animation: deck-luminous-glow 1.8s ease-in-out infinite;
+}
+
+/* Circular Arena Ellipse Table Styling */
+.circular-arena-wrapper {
+  position: relative;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, rgba(30, 18, 12, 0.3) 0%, rgba(15, 8, 5, 0.8) 70%, rgba(8, 4, 2, 0.95) 100%);
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.9), 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+
+
