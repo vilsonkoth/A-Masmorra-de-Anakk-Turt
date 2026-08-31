@@ -33,6 +33,7 @@ import {
 interface GameContextType {
   players: Player[];
   activePlayerIndex: number;
+  initialPlayerIndex: number;
   activePlayer: Player;
   currentRound: number;
   turnPhase: TurnPhase;
@@ -100,13 +101,9 @@ function createInitialGameState(
   customNames: string[] = []
 ) {
   const totalPlayers = Math.min(6, Math.max(2, humanCount + botCount));
+  const initialPlayerIndex = Math.floor(Math.random() * totalPlayers);
   const generatedRaiderDeck = generateFullRaiderDeck();
   const generatedDungeonDeck = buildOfficialDungeonDeck();
-  // O manual usa 11 cartas por partida e a primeira revelada deve ser N1.
-  // Versoes anteriores do builder podiam incluir Tesouro 1 como carta extra;
-  // ele nao faz parte da montagem oficial da Masmorra.
-  const officialDungeonDeck = generatedDungeonDeck.filter(card => !card.name.toLowerCase().includes('tesouro 1')).slice(0, 11);
-  const startingPlayerIndex = Math.floor(Math.random() * totalPlayers);
 
   const initialPlayers: Player[] = [];
   let deckIndex = 0;
@@ -114,7 +111,7 @@ function createInitialGameState(
   for (let i = 0; i < totalPlayers; i++) {
     const isBot = i >= humanCount;
     const defaultName = isBot ? `Bot Guardião ${i + 1 - humanCount}` : (customNames[i] || `Jogador ${i + 1}`);
-    const startingCardsCount = i === startingPlayerIndex ? 4 : 5;
+    const startingCardsCount = i === initialPlayerIndex ? 4 : 5;
     
     const hand = generatedRaiderDeck.slice(deckIndex, deckIndex + startingCardsCount);
     deckIndex += startingCardsCount;
@@ -133,7 +130,7 @@ function createInitialGameState(
   }
 
   const remainingRaiders = generatedRaiderDeck.slice(deckIndex);
-  const [firstDungeonCard, ...remainingDungeon] = officialDungeonDeck;
+  const [firstDungeonCard, ...remainingDungeon] = generatedDungeonDeck;
 
   const startMsg = `🏰 Início de "A Masmorra de Anakk Tur"! ${totalPlayers} Jogadores em jogo. O 1º jogador começa com 4 cartas; os demais com 5 cartas.`;
   const dungeonMsg = firstDungeonCard 
@@ -155,7 +152,7 @@ function createInitialGameState(
       round: 1,
       phase: 'PREPARAR',
       playerName: 'Sistema',
-      message: `${startMsg} Jogador inicial: ${initialPlayers[startingPlayerIndex]?.name || 'Jogador 1'}.`,
+      message: startMsg,
       type: 'system',
       timestamp: new Date().toLocaleTimeString('pt-BR')
     }
@@ -163,7 +160,7 @@ function createInitialGameState(
 
   return {
     initialPlayers,
-    startingPlayerIndex,
+    initialPlayerIndex,
     remainingRaiders,
     remainingDungeon,
     firstDungeonCard: firstDungeonCard || null,
@@ -177,7 +174,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [initialSetup] = useState(() => createInitialGameState(1, 3));
 
   const [players, setPlayers] = useState<Player[]>(() => initialSetup.initialPlayers);
-  const [activePlayerIndex, setActivePlayerIndex] = useState<number>(() => initialSetup.startingPlayerIndex);
+  const [activePlayerIndex, setActivePlayerIndex] = useState<number>(() => initialSetup.initialPlayerIndex);
+  const [initialPlayerIndex, setInitialPlayerIndex] = useState<number>(() => initialSetup.initialPlayerIndex);
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [turnPhase, setTurnPhase] = useState<TurnPhase>('PREPARAR');
   const [gameMode, setGameMode] = useState<GameMode>('BOTS');
@@ -289,7 +287,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const setup = createInitialGameState(humanCount, botCount, customNames);
 
     setPlayers(setup.initialPlayers);
-    setActivePlayerIndex(setup.startingPlayerIndex);
+    setInitialPlayerIndex(setup.initialPlayerIndex);
+    setActivePlayerIndex(setup.initialPlayerIndex);
     setCurrentRound(1);
     setTurnPhase('PREPARAR');
     setGameMode(botCount > 0 && humanCount === 1 ? 'BOTS' : 'PASS_AND_PLAY');
@@ -373,19 +372,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (prevDeck.length === 0) {
         // Dungeon cleared completely!
         addLog('🏆 Todas as câmaras da Masmorra foram superadas!', 'system');
-        // A partida termina somente apos o ultimo monstro. O maior total de
-        // tesouros vence; empate no maior total e empate de partida.
+        // Check winner with most treasures
         setPlayers(currentPlayers => {
-          const maxTreasures = Math.max(...currentPlayers.map(p => p.treasures), 0);
-          const leaders = currentPlayers.filter(p => p.treasures === maxTreasures);
-          if (leaders.length === 1) {
-            setWinner(leaders[0]);
-            addLog(`👑 ${leaders[0].name} venceu o jogo com ${leaders[0].treasures} Tesouros!`, 'treasure');
-          } else {
-            setWinner(null);
-            addLog(`🤝 Empate! ${leaders.map(p => p.name).join(', ')} terminaram com ${maxTreasures} Tesouros.`, 'treasure');
-          }
+          const sorted = [...currentPlayers].sort((a, b) => b.treasures - a.treasures);
+          setWinner(sorted[0]);
           setIsGameOver(true);
+          addLog(`👑 ${sorted[0].name} venceu o jogo com ${sorted[0].treasures} Tesouros!`, 'treasure');
           return currentPlayers;
         });
         setCurrentDungeonCard(null);
@@ -1625,8 +1617,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       executeEventLogic(event);
     }
 
-    // Evento resolve logicamente no momento da revelacao. A animacao pode
-    // continuar na UI, mas nao pode segurar o estado da partida por 3,2s.
+    // Events resolve immediately when revealed. Visual animation must not
+    // block the logical game state.
     setDungeonGraveyard(g => g.some(c => c.id === event.id) ? g : [...g, event]);
     revealNextDungeonCard();
 
@@ -1678,17 +1670,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Pass Turn Phase (Step 1 -> Step 2 -> Step 3 -> End Turn)
   const passPhase = useCallback(() => {
-    // PREPARAR e REAGRUPAR exigem uma acao valida (comprar ou jogar).
-    // MASMORRA so avanca quando todos os saqueadores aptos ja agiram.
-    if (turnPhase === 'PREPARAR' && !hasDrawnOrPlayedInPhase1) {
-      addLog(`⚠️ No PASSO 1, você deve comprar 1 carta ou jogar 1 Saqueador antes de avançar.`, 'system', activePlayer.name);
-      return;
-    }
-    if (turnPhase === 'REAGRUPAR' && !hasDrawnOrPlayedInPhase3) {
-      addLog(`⚠️ No PASSO 3, você deve comprar 1 carta ou jogar 1 Saqueador antes de finalizar o turno.`, 'system', activePlayer.name);
-      return;
-    }
-
     if (turnPhase === 'PREPARAR') {
       setTurnPhase('MASMORRA');
       // Ensure all raiders on active player's field are ready to attack in Step 2!
@@ -1717,8 +1698,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const nextPlayerIdx = (activePlayerIndex + 1) % players.length;
       
-      // A rodada termina quando o turno volta ao jogador que iniciou a rodada.
-      if (nextPlayerIdx === startingPlayerIndex) {
+      // If the turn returns to the player who started the round, the round is complete.
+      if (nextPlayerIdx === initialPlayerIndex) {
         triggerEndOfRoundEffects();
       }
 
@@ -1731,26 +1712,14 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const nextP = players[nextPlayerIdx];
       addLog(`🔄 Turno de ${nextP.name}! PASSO 1: PREPARAR (Compre 1 carta OU jogue da mão).`, 'phase', nextP.name);
     }
-  }, [turnPhase, activePlayer, activePlayerIndex, players, startingPlayerIndex, hasDrawnOrPlayedInPhase1, hasDrawnOrPlayedInPhase3, addLog, triggerEndOfRoundEffects]);
+  }, [turnPhase, activePlayer, activePlayerIndex, initialPlayerIndex, players, addLog, triggerEndOfRoundEffects]);
 
   const endTurn = useCallback(() => {
-    // Encerramento manual respeita as regras: nao pula PREPARAR/MASMORRA.
-    if (turnPhase === 'REAGRUPAR' && hasDrawnOrPlayedInPhase3) {
-      passPhase();
-      return;
-    }
-    if (turnPhase === 'PREPARAR' && hasDrawnOrPlayedInPhase1) {
-      passPhase();
-      return;
-    }
-    if (turnPhase === 'MASMORRA') {
-      const ready = activePlayer.field.some(r => !r.hasActedThisTurn);
-      if (!ready) passPhase();
-      else addLog(`⚠️ Ainda existem saqueadores de ${activePlayer.name} que não realizaram sua ação.`, 'system', activePlayer.name);
-      return;
-    }
-    addLog(`⚠️ Conclua a ação obrigatória desta fase antes de encerrar o turno.`, 'system', activePlayer.name);
-  }, [turnPhase, hasDrawnOrPlayedInPhase1, hasDrawnOrPlayedInPhase3, activePlayer, passPhase, addLog]);
+    // Force advance to end of turn if currently in step 1 or 2
+    setTurnPhase('REAGRUPAR');
+    setHasDrawnOrPlayedInPhase3(true);
+    passPhase();
+  }, [passPhase]);
 
   const selectAttacker = useCallback((raiderId: string | null) => {
     setSelectedAttackerId(raiderId);
@@ -1833,13 +1802,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isGameOver,
     passPhase
   ]);
-
-  useEffect(() => {
-    return () => {
-      if (aiTurnTimeoutRef.current) clearTimeout(aiTurnTimeoutRef.current);
-      if (eventAutoResolveTimeoutRef.current) clearTimeout(eventAutoResolveTimeoutRef.current);
-    };
-  }, []);
 
   // AI BOT Automation Engine
   useEffect(() => {
@@ -1939,6 +1901,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         players,
         activePlayerIndex,
+        initialPlayerIndex,
         activePlayer,
         currentRound,
         turnPhase,
