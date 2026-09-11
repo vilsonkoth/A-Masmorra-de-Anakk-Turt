@@ -1,0 +1,14 @@
+A MASMORRA DE ANAKK TUR — V37
+
+1. Rode npm install na primeira vez neste computador.
+2. Rode npm run dev.
+3. Dentro do jogo: CONFIGURAÇÕES -> PLAYMATS.
+4. Use EXPORTAR ASSETS PARA PENDRIVE para gerar um pacote ZIP com os
+   assets oficiais + fonte + BGMs + vídeo de cenário + configurações salvas.
+5. O vídeo cinematográfico padrão já acompanha esta versão em:
+   public/assets/videos/anakk-tur-dungeon-loop.mp4
+
+IMPORTANTE:
+- O editor continua salvando algumas personalizações no navegador.
+- O exportador reúne essas personalizações para transporte manual.
+- Para distribuir o jogo inteiro, leve também a pasta do projeto.
