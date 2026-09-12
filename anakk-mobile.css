@@ -1,0 +1,177 @@
+/* ANAKK TUR — MOBILE V113
+   Portrait-first responsive UI. This file intentionally overrides the old
+   desktop opening/battle CSS with selectors that match the current React DOM.
+*/
+
+:root{--mobile-safe-top:env(safe-area-inset-top,0px);--mobile-safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body,#root{width:100%;height:100%;margin:0;padding:0;min-width:0;min-height:0;overflow:hidden!important;overscroll-behavior:none!important;touch-action:manipulation}
+body{position:fixed;inset:0}
+
+/* =========================================================
+   OPENING — VIDEO + BUTTONS ONLY
+   ========================================================= */
+@media (max-width:900px){
+  .anakk-opening-clean{
+    position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;
+    min-height:0!important;max-height:none!important;overflow:hidden!important;
+    display:block!important;background:#000!important;
+  }
+
+  /* The video is the whole opening scene. No extra dungeon/logo/veil layers. */
+  .anakk-opening-clean .anakk-opening-video{
+    position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+    max-width:none!important;max-height:none!important;object-fit:cover!important;
+    object-position:center center!important;display:block!important;opacity:1!important;
+    filter:none!important;z-index:0!important;
+  }
+  .anakk-opening-clean .dungeon-world-3d,
+  .anakk-opening-clean .living-dungeon-atmosphere,
+  .anakk-opening-clean .opening-dark-overlay,
+  .anakk-opening-clean > .absolute.inset-0,
+  .anakk-opening-clean > .absolute.inset-0.bg-black\/70{display:none!important}
+
+  /* IMPORTANT: current game uses .anakk-opening-buttons, not the old scroll class. */
+  .anakk-opening-clean .anakk-opening-buttons{
+    position:absolute!important;z-index:20!important;
+    left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
+    width:min(76vw,330px)!important;height:auto!important;
+    margin:0!important;padding:0!important;
+    display:flex!important;flex-direction:column!important;align-items:stretch!important;
+    justify-content:center!important;gap:clamp(9px,2.2vh,14px)!important;
+    background:transparent!important;background-image:none!important;
+    border:0!important;border-radius:0!important;box-shadow:none!important;
+  }
+  .anakk-opening-clean .anakk-opening-buttons::before,
+  .anakk-opening-clean .anakk-opening-buttons::after{display:none!important;content:none!important}
+
+  .anakk-opening-clean .opening-menu-button{
+    position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;
+    box-sizing:border-box!important;width:100%!important;height:clamp(46px,6.8vh,58px)!important;
+    min-height:46px!important;max-height:58px!important;margin:0!important;padding:0 16px!important;
+    flex:0 0 auto!important;cursor:pointer!important;pointer-events:auto!important;
+    -webkit-tap-highlight-color:transparent!important;touch-action:manipulation!important;
+    user-select:none!important;
+    border:1px solid rgba(190,148,70,.82)!important;border-radius:7px!important;
+    background:linear-gradient(180deg,rgba(25,18,12,.90),rgba(6,6,6,.82))!important;
+    color:#f1d48a!important;box-shadow:0 5px 16px rgba(0,0,0,.55),inset 0 1px rgba(255,235,180,.12)!important;
+    font-family:Cinzel,Georgia,serif!important;font-size:clamp(12px,3.7vw,17px)!important;
+    font-weight:800!important;letter-spacing:.11em!important;text-shadow:0 2px 3px #000!important;
+    transform:none!important;transition:transform .08s ease,background .08s ease,border-color .08s ease!important;
+  }
+  .anakk-opening-clean .opening-menu-button:active{
+    transform:scale(.975)!important;background:rgba(54,37,19,.95)!important;border-color:#e4bd57!important;
+  }
+  .anakk-opening-clean .opening-menu-button:focus-visible{outline:2px solid #e4bd57!important;outline-offset:3px!important}
+  .anakk-opening-clean .opening-menu-play{border-color:#c8953d!important}
+
+  /* No hidden/extra opening artwork can create another logo or panel. */
+  .anakk-opening-clean .anakk-logo-wrap,
+  .anakk-opening-clean .anakk-opening-buttons img,
+  .anakk-opening-clean .anakk-opening-buttons h1,
+  .anakk-opening-clean .anakk-opening-buttons h2,
+  .anakk-opening-clean .anakk-opening-buttons p{display:none!important}
+
+  /* =========================================================
+     BATTLE — PORTRAIT, ONE SCREEN, NO SCROLL
+     ========================================================= */
+  .anakk-arena-shell{
+    position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;
+    min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+    box-sizing:border-box!important;padding:calc(var(--mobile-safe-top) + 34px) 5px var(--mobile-safe-bottom)!important;
+    overflow:hidden!important;touch-action:manipulation!important;
+  }
+  .anakk-arena-grid{
+    position:relative!important;width:100%!important;height:calc(100dvh - var(--mobile-safe-top) - var(--mobile-safe-bottom) - 34px)!important;
+    min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+    display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,17%) minmax(0,35%) minmax(0,48%)!important;
+    gap:2px!important;overflow:hidden!important;box-sizing:border-box!important;
+  }
+  .anakk-arena-grid>.arena-left,.anakk-arena-grid>.arena-right{display:none!important}
+  .arena-top,.arena-center,.arena-bottom{position:relative!important;min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;overflow:hidden!important;box-sizing:border-box!important}
+
+  /* Never allow an inner component to push the viewport taller than its row. */
+  .arena-top>*,.arena-center>*,.arena-bottom>*{min-width:0!important;min-height:0!important;max-width:100%!important;max-height:100%!important;box-sizing:border-box!important}
+  .arena-top{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important}
+  .arena-center{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important}
+  .arena-bottom{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-end!important;padding:0!important}
+
+  /* Opponent: compact and visible. */
+  .arena-top [class*="opponent"],.arena-top [class*="Opponent"]{max-height:100%!important}
+  .arena-top .raider-card-shell{width:min(16vw,62px)!important;max-width:min(16vw,62px)!important}
+
+  /* Dungeon/card in the center. */
+  .arena-center .dungeon-chamber-3d,
+  .arena-center .dungeon-layout-v64,
+  .arena-center .dungeon-center-v64,
+  .arena-center .dungeon-card-anchor{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important}
+  .arena-center .dungeon-layout-v64{display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important}
+  .arena-center .dungeon-center-v64,.arena-center .dungeon-card-anchor{display:flex!important;align-items:center!important;justify-content:center!important}
+  .arena-center .central-active-card{width:min(48vw,190px)!important;max-width:48vw!important;max-height:30dvh!important}
+
+  /* Player field: four raiders fit across the screen. */
+  .arena-bottom .player-station{width:100%!important;height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important;overflow:hidden!important}
+  .arena-bottom .player-field-row{width:100%!important;max-width:100%!important;min-height:0!important;height:clamp(82px,15dvh,128px)!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;gap:clamp(2px,1.2vw,6px)!important;overflow:hidden!important;flex:0 0 auto!important}
+  .arena-bottom .player-raider-wrap{width:min(20vw,76px)!important;max-width:min(20vw,76px)!important;min-width:0!important;flex:0 1 20vw!important;display:flex!important;justify-content:center!important;position:relative!important}
+  .arena-bottom .player-raider-wrap .raider-card-shell{width:100%!important;max-width:100%!important;height:auto!important}
+
+  /* Hand is permanently at the bottom, never below the viewport. */
+  .arena-bottom .hand-zone{
+    width:100%!important;max-width:100%!important;height:clamp(96px,18dvh,160px)!important;
+    min-height:0!important;max-height:22dvh!important;overflow:hidden!important;
+    margin-top:0!important;flex:1 1 auto!important;display:flex!important;flex-direction:column!important;
+    align-items:center!important;justify-content:flex-end!important;box-sizing:border-box!important;
+  }
+  .arena-bottom .hand-fan-new{
+    width:100%!important;max-width:100%!important;height:clamp(66px,13dvh,115px)!important;
+    min-height:0!important;padding:0!important;display:flex!important;align-items:flex-end!important;justify-content:center!important;
+    transform:none!important;transform-origin:center bottom!important;overflow:visible!important;
+  }
+  .arena-bottom .hand-card-new{width:min(15.5vw,58px)!important;max-width:min(15.5vw,58px)!important;min-width:0!important;margin-left:clamp(-19px,-4.5vw,-10px)!important}
+  .arena-bottom .hand-card-new:first-child{margin-left:0!important}
+  .arena-bottom .hand-card-new .raider-card-shell{width:100%!important;max-width:100%!important}
+
+  /* HUD stays attached to the bottom, small enough to coexist with the hand. */
+  .arena-bottom .player-hud-bottom-v53{width:min(92vw,390px)!important;min-width:0!important;max-width:92vw!important;height:clamp(28px,5.5dvh,42px)!important;min-height:28px!important;margin:0!important}
+  .arena-bottom .player-hud-bottom-v53 .player-hud-active{width:100%!important;min-width:0!important;max-width:100%!important;height:100%!important;padding:3px 7px!important}
+  .arena-bottom .player-hud-bottom-v53 .player-hud-main{min-width:0!important;overflow:hidden!important}
+  .arena-bottom .player-hud-bottom-v53 strong{font-size:clamp(8px,2.5vw,11px)!important}
+  .arena-bottom .player-hud-bottom-v53 span{font-size:clamp(6px,1.9vw,9px)!important}
+  .arena-bottom .player-hud-avatar{width:24px!important;height:24px!important;min-width:24px!important}
+
+  /* Kill desktop side piles, log, and oversized action panels on portrait. */
+  .last-events-panel,.recent-events-panel,.action-log-panel,.mini-action-log-list,.active-effects-panel{display:none!important}
+  .mobile-floating-settings{position:fixed!important;top:calc(var(--mobile-safe-top) + 7px)!important;right:8px!important;z-index:10000!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;border-radius:50%!important}
+  .anakk-header-overlay.v46-header-menu{display:none!important}
+
+  /* General typography: prevent giant headings from breaking the portrait composition. */
+  .anakk-arena-grid h1{font-size:clamp(12px,4vw,20px)!important;line-height:1.05!important}
+  .anakk-arena-grid h2{font-size:clamp(10px,3.4vw,17px)!important;line-height:1.05!important}
+  .anakk-arena-grid button{touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important}
+}
+
+/* Very narrow phones. */
+@media (max-width:390px){
+  .anakk-opening-clean .anakk-opening-buttons{width:78vw!important;gap:8px!important}
+  .anakk-opening-clean .opening-menu-button{height:44px!important;min-height:44px!important;font-size:11px!important}
+  .anakk-arena-grid{grid-template-rows:16% 34% 50%!important}
+  .arena-bottom .player-field-row{height:clamp(70px,14dvh,105px)!important}
+  .arena-bottom .hand-zone{height:clamp(88px,19dvh,130px)!important}
+  .arena-bottom .hand-card-new{width:15vw!important;max-width:55px!important}
+}
+
+/* Short phones: reclaim vertical space instead of creating a scroll. */
+@media (max-width:900px) and (max-height:740px){
+  .anakk-opening-clean .anakk-opening-buttons{gap:7px!important}
+  .anakk-opening-clean .opening-menu-button{height:42px!important;min-height:42px!important}
+  .anakk-arena-grid{grid-template-rows:15% 34% 51%!important}
+  .arena-bottom .player-field-row{height:76px!important}
+  .arena-bottom .hand-zone{height:92px!important;max-height:19dvh!important}
+  .arena-bottom .hand-fan-new{height:62px!important}
+  .arena-bottom .hand-card-new{width:14.5vw!important;max-width:53px!important}
+}
+
+/* Desktop/tablet: keep the original game spacious; only enforce viewport bounds. */
+@media (min-width:901px){
+  html,body,#root{overflow:hidden!important}
+}
