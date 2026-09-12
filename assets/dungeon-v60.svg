@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#27312f"/><stop offset=".45" stop-color="#151b1a"/><stop offset="1" stop-color="#090d0c"/></linearGradient>
+  <linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#59615c"/><stop offset=".35" stop-color="#353c38"/><stop offset="1" stop-color="#151a18"/></linearGradient>
+  <linearGradient id="stone2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6a716a"/><stop offset=".3" stop-color="#343b37"/><stop offset="1" stop-color="#121716"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0a0"/><stop offset=".3" stop-color="#d8ae45"/><stop offset=".7" stop-color="#6d4815"/><stop offset="1" stop-color="#241706"/></linearGradient>
+  <radialGradient id="ritual" cx="50%" cy="48%"><stop stop-color="#30424a"/><stop offset=".6" stop-color="#111a1a"/><stop offset="1" stop-color="#070b0b"/></radialGradient>
+  <radialGradient id="fog"><stop stop-color="#a8c4c2" stop-opacity=".22"/><stop offset="1" stop-color="#a8c4c2" stop-opacity="0"/></radialGradient>
+  <radialGradient id="flame"><stop stop-color="#fff5b1"/><stop offset=".22" stop-color="#ffd35a"/><stop offset=".6" stop-color="#e96b13"/><stop offset="1" stop-color="#5e1907" stop-opacity="0"/></radialGradient>
+  <filter id="blur20"><feGaussianBlur stdDeviation="20"/></filter>
+  <filter id="blur45"><feGaussianBlur stdDeviation="45"/></filter>
+  <filter id="shadow"><feGaussianBlur stdDeviation="12"/></filter>
+  <pattern id="tiles" width="180" height="112" patternUnits="userSpaceOnUse">
+    <rect width="180" height="112" fill="#202725"/>
+    <path d="M0 2H180M2 0V112" stroke="#050807" stroke-width="7" opacity=".8"/>
+    <path d="M7 7H173V105H7Z" fill="none" stroke="#59605a" stroke-opacity=".12" stroke-width="3"/>
+    <path d="M30 45l18-10m55 47l22-14m-4-53l14 7" stroke="#88908a" stroke-opacity=".09" stroke-width="4"/>
+  </pattern>
+  <pattern id="wallblocks" width="230" height="90" patternUnits="userSpaceOnUse">
+    <rect width="230" height="90" fill="#252b28"/>
+    <path d="M0 3H230M3 0V90" stroke="#090d0c" stroke-width="9"/>
+    <path d="M8 8H222V82H8Z" fill="none" stroke="#778078" stroke-opacity=".12" stroke-width="3"/>
+  </pattern>
+</defs>
+<!-- deep dungeon -->
+<rect width="1920" height="1080" fill="#050807"/>
+<rect x="42" y="40" width="1836" height="1000" rx="46" fill="url(#floor)" stroke="#080b0a" stroke-width="24"/>
+<!-- upper wall / entrance -->
+<path d="M45 48Q45 32 64 32H1856Q1875 32 1875 48V190H45Z" fill="url(#wallblocks)" stroke="#0b0f0e" stroke-width="18"/>
+<path d="M45 170H1875" stroke="#8b7849" stroke-opacity=".16" stroke-width="8"/>
+<!-- lower ledge -->
+<path d="M45 905H1875V1030Q1875 1045 1856 1045H64Q45 1045 45 1030Z" fill="url(#wallblocks)" stroke="#0b0f0e" stroke-width="18"/>
+<!-- side walls -->
+<path d="M45 50H185V905H45Z" fill="url(#wallblocks)" opacity=".95"/>
+<path d="M1735 50H1875V905H1735Z" fill="url(#wallblocks)" opacity=".95"/>
+<!-- floor -->
+<path d="M185 185H1735V905H185Z" fill="url(#tiles)"/>
+<!-- perspective seams -->
+<g opacity=".16" stroke="#a7aa9e" stroke-width="3">
+ <path d="M185 905L420 185M450 905L600 185M720 905L780 185M960 905V185M1200 905L1140 185M1470 905L1320 185M1735 905L1500 185"/>
+</g>
+<!-- upper doorway -->
+<path d="M690 185V105Q690 72 724 72H1196Q1230 72 1230 105V185Z" fill="#070b0b" stroke="#5e655f" stroke-width="22"/>
+<path d="M725 178V112Q725 100 740 100H1180Q1195 100 1195 112V178" fill="none" stroke="#9a8650" stroke-opacity=".28" stroke-width="7"/>
+<path d="M770 165V125Q770 115 785 115H1135Q1150 115 1150 125V165" fill="#020404"/>
+<!-- corner columns -->
+<g fill="url(#stone2)" stroke="#0b0f0e" stroke-width="8">
+ <path d="M160 150h100l24 70v545l-24 70H160l-24-70V220Z"/>
+ <path d="M1660 150h100l24 70v545l-24 70h-100l-24-70V220Z"/>
+</g>
+<g fill="none" stroke="url(#gold)" stroke-opacity=".22" stroke-width="4"><path d="M174 260h72M174 470h72M174 680h72"/><path d="M1674 260h72M1674 470h72M1674 680h72"/></g>
+<!-- ritual dais shadow -->
+<ellipse cx="960" cy="585" rx="650" ry="310" fill="#000" opacity=".62" filter="url(#blur20)"/>
+<!-- central ritual platform -->
+<path d="M360 410Q360 370 400 350H1520Q1560 370 1560 410V735Q1560 775 1520 795H400Q360 775 360 735Z" fill="#0c1110" stroke="#171d1b" stroke-width="28"/>
+<path d="M390 415Q390 390 420 380H1500Q1530 390 1530 415V710Q1530 740 1500 750H420Q390 740 390 710Z" fill="url(#ritual)" stroke="url(#gold)" stroke-opacity=".48" stroke-width="8"/>
+<!-- runic frame -->
+<rect x="420" y="410" width="1080" height="310" rx="34" fill="none" stroke="#9b8042" stroke-opacity=".2" stroke-width="3"/>
+<ellipse cx="960" cy="565" rx="410" ry="135" fill="none" stroke="#c8a24c" stroke-opacity=".3" stroke-width="5"/>
+<ellipse cx="960" cy="565" rx="290" ry="95" fill="none" stroke="#6f88a0" stroke-opacity=".38" stroke-width="4" stroke-dasharray="14 18"/>
+<ellipse cx="960" cy="565" rx="150" ry="52" fill="none" stroke="#d7b65d" stroke-opacity=".4" stroke-width="4"/>
+<g fill="#d8b75f" fill-opacity=".28" font-family="serif" font-size="34" font-weight="bold">
+ <text x="520" y="510">ᚨ ᛗ ᚨ ᛉ ᚲ ᚲ  ᛏ ᚢ ᚱ</text><text x="520" y="650">ᛒ ᛟ ᛋ ᛋ ᚨ  ᛞ ᛖ  ᚨ ᚾ ᚨ ᚲ ᚲ</text>
+</g>
+<!-- central engraved sigil -->
+<g transform="translate(960 565)" fill="none" stroke="#8fc4d2" stroke-opacity=".28">
+ <path d="M-110 0H110M0-72V72" stroke-width="5"/>
+ <path d="M0-90L22-34L82-25L36 15L50 72L0 40L-50 72L-36 15L-82-25L-22-34Z" stroke-width="5"/>
+</g>
+<!-- treasure/prop alcoves -->
+<g stroke="#0a0d0c" stroke-width="10">
+ <g transform="translate(255 300)"><path d="M0 50Q0 0 55 0h90q55 0 55 50v80H0Z" fill="#101514"/><rect x="32" y="50" width="136" height="72" rx="10" fill="#6b5129"/><path d="M45 62h110v10H45z" fill="#d0a94c"/></g>
+ <g transform="translate(1405 300)"><path d="M0 50Q0 0 55 0h90q55 0 55 50v80H0Z" fill="#101514"/><rect x="32" y="50" width="136" height="72" rx="10" fill="#6b5129"/><path d="M45 62h110v10H45z" fill="#d0a94c"/></g>
+ <g transform="translate(270 760) rotate(-8)"><ellipse cx="45" cy="45" rx="45" ry="60" fill="#5b3d21"/><path d="M5 30h80M5 65h80" stroke="#2b1b10" stroke-width="9"/></g>
+ <g transform="translate(1570 760) rotate(8)"><ellipse cx="45" cy="45" rx="45" ry="60" fill="#5b3d21"/><path d="M5 30h80M5 65h80" stroke="#2b1b10" stroke-width="9"/></g>
+</g>
+<!-- braziers and flames -->
+<g>
+ <g transform="translate(225 250)"><ellipse cx="0" cy="0" rx="110" ry="110" fill="url(#flame)" opacity=".45"/><path d="M-32 45h64l-8 25h-48z" fill="#202523" stroke="#080b0a" stroke-width="7"/><path d="M0 48C-32 10-8-8 2-35 30 4 27 20 0 48Z" fill="#ff9b21"/><ellipse cy="0" rx="42" ry="62" fill="url(#flame)" opacity=".35"/></g>
+ <g transform="translate(1695 250)"><ellipse cx="0" cy="0" rx="110" ry="110" fill="url(#flame)" opacity=".45"/><path d="M-32 45h64l-8 25h-48z" fill="#202523" stroke="#080b0a" stroke-width="7"/><path d="M0 48C-32 10-8-8 2-35 30 4 27 20 0 48Z" fill="#ff9b21"/><ellipse cy="0" rx="42" ry="62" fill="url(#flame)" opacity=".35"/></g>
+ <g transform="translate(225 810)"><ellipse cx="0" cy="0" rx="100" ry="100" fill="url(#flame)" opacity=".35"/><path d="M-32 45h64l-8 25h-48z" fill="#202523" stroke="#080b0a" stroke-width="7"/><path d="M0 48C-30 15-7-5 2-32 28 2 24 18 0 48Z" fill="#ff8a19"/></g>
+ <g transform="translate(1695 810)"><ellipse cx="0" cy="0" rx="100" ry="100" fill="url(#flame)" opacity=".35"/><path d="M-32 45h64l-8 25h-48z" fill="#202523" stroke="#080b0a" stroke-width="7"/><path d="M0 48C-30 15-7-5 2-32 28 2 24 18 0 48Z" fill="#ff8a19"/></g>
+</g>
+<!-- chains -->
+<g stroke="#6c756f" stroke-opacity=".35" stroke-width="8" fill="none"><path d="M120 240q80 45 30 120t80 130"/><path d="M1800 240q-80 45-30 120t-80 130"/><path d="M120 760q80-45 30-120t80-130"/><path d="M1800 760q-80-45-30-120t-80-130"/></g>
+<!-- floor debris -->
+<g fill="#9a8554" opacity=".3"><circle cx="320" cy="540" r="5"/><circle cx="1590" cy="620" r="7"/><circle cx="420" cy="820" r="4"/><circle cx="1510" cy="250" r="5"/><circle cx="620" cy="260" r="3"/><circle cx="1300" cy="820" r="4"/></g>
+<!-- fog banks -->
+<ellipse cx="430" cy="790" rx="430" ry="150" fill="url(#fog)" filter="url(#blur45)" opacity=".75"/>
+<ellipse cx="1490" cy="770" rx="470" ry="160" fill="url(#fog)" filter="url(#blur45)" opacity=".65"/>
+<ellipse cx="960" cy="220" rx="520" ry="110" fill="url(#fog)" filter="url(#blur45)" opacity=".5"/>
+<!-- vignette -->
+<rect width="1920" height="1080" fill="none" stroke="#000" stroke-width="170" opacity=".58"/>
+</svg>
