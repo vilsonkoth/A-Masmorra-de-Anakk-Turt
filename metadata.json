@@ -1,6 +1,0 @@
-{
-  "name": "A Masmorra de Anakk Tur",
-  "description": "Versão digital jogável do cardgame competitivo A Masmorra de Anakk Tur com combate de dados, masmorra dinâmica e regras completas.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
